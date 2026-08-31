@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ananya A R — Network Learning Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --radius: 14px;
+    --font-display: 'Space Grotesk', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --font-mono: 'IBM Plex Mono', monospace;
+  }
+  html[data-theme="dark"]{
+    --bg:#07111F; --bg-2:#0B1F33; --card:#10263D; --card-border:#1B3A57;
+    --text:#F8FAFC; --subtext:#A8BDD0;
+    --accent:#22D3EE; --blue:#3B82F6; --purple:#8B5CF6; --teal:#2DD4BF;
+    --shadow: 0 10px 30px rgba(0,0,0,0.35);
+    --grid-line: rgba(168,189,208,0.08);
+    --blob-a: rgba(59,130,246,0.16); --blob-b: rgba(139,92,246,0.14); --blob-c: rgba(45,212,191,0.12);
+  }
+  html[data-theme="light"]{
+    --bg:#FFFFFF; --bg-2:#F8FAFC; --card:#F1F7FC; --card-border:#E0F2FE;
+    --text:#0F2742; --subtext:#52677A;
+    --accent:#0891B2; --blue:#2563EB; --purple:#7C3AED; --teal:#0D9488;
+    --shadow: 0 10px 26px rgba(15,39,66,0.08);
+    --grid-line: rgba(15,39,66,0.06);
+    --blob-a: rgba(37,99,235,0.14); --blob-b: rgba(124,58,237,0.12); --blob-c: rgba(13,148,136,0.12);
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font-body);transition:background .35s ease,color .35s ease;}
+  a{color:inherit;text-decoration:none;}
+  button{font-family:inherit;cursor:pointer;}
+
+  /* ---------- NAV ---------- */
+  .navbar{
+    position:sticky;top:0;z-index:100;
+    background:linear-gradient(180deg, color-mix(in srgb, var(--blue) 6%, var(--bg)), color-mix(in srgb, var(--bg) 88%, transparent));
+    backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--card-border);
+  }
+  .navbar-top{
+    display:flex;align-items:center;justify-content:space-between;gap:20px;
+    padding:14px 28px;
+  }
+  .brand{font-family:var(--font-display);font-weight:700;font-size:18px;letter-spacing:0.5px;display:flex;align-items:center;gap:10px;white-space:nowrap;flex-shrink:0;}
+  .brand-dot{width:9px;height:9px;border-radius:50%;background:var(--accent);box-shadow:0 0 10px var(--accent);flex-shrink:0;}
+  .navbar-controls{display:flex;align-items:center;flex-shrink:0;}
+  .nav-link{
+    font-family:var(--font-body);font-size:14px;font-weight:600;color:var(--subtext);
+    padding:10px 14px;border-radius:9px;border:1px solid transparent;white-space:nowrap;
+    transition:all .2s ease;display:flex;align-items:center;
+  }
+  .nav-link:hover{color:var(--accent-color,var(--accent));background:color-mix(in srgb, var(--accent-color, var(--accent)) 10%, var(--bg-2));transform:translateX(2px);}
+  .nav-link.active{color:var(--text);background:color-mix(in srgb, var(--accent-color, var(--accent)) 14%, var(--card));border-color:var(--card-border);}
+  .nav-link.active .nav-dot{opacity:1;}
+  .nav-dot{width:6px;height:6px;border-radius:50%;background:var(--accent-color,var(--accent));display:inline-block;margin-right:8px;opacity:0.35;vertical-align:middle;flex-shrink:0;}
+  .nav-link.active .nav-dot, .nav-link:hover .nav-dot{opacity:1;box-shadow:0 0 8px var(--accent-color,var(--accent));}
+  .theme-toggle{
+    display:flex;align-items:center;gap:6px;padding:6px;border-radius:20px;
+    background:var(--bg-2);border:1px solid var(--card-border);margin-left:10px;
+  }
+  .theme-toggle button{
+    border:none;background:transparent;padding:6px 10px;border-radius:16px;font-size:13px;color:var(--subtext);
+    transition:all .2s ease;white-space:nowrap;
+  }
+  .theme-toggle button.active{background:var(--card);color:var(--text);box-shadow:var(--shadow);}
+  .hamburger{
+    display:inline-flex;align-items:center;justify-content:center;
+    background:var(--bg-2);border:1px solid var(--card-border);color:var(--text);
+    border-radius:9px;padding:9px 12px;font-size:16px;margin-left:10px;transition:all .2s ease;
+  }
+  .hamburger:hover{border-color:var(--accent);color:var(--accent);}
+  .mobile-menu{
+    display:none;flex-direction:column;gap:3px;padding:12px 20px 18px;
+    background:var(--bg);border-bottom:1px solid var(--card-border);
+    max-height:70vh;overflow-y:auto;
+  }
+  .mobile-menu.open{display:flex;animation:fadeSlide .25s ease;}
+  /* ---------- LAYOUT ---------- */
+  main{max-width:1180px;margin:0 auto;padding:0 24px 100px;}
+  .page-enter{animation:fadeSlide .45s ease;}
+  @keyframes fadeSlide{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;padding:70px 24px 40px;overflow:hidden;
+    border-bottom:1px solid var(--card-border);
+    margin-bottom:48px;
+  }
+  .hero::before{
+    content:'';position:absolute;inset:0;z-index:0;pointer-events:none;
+    background:
+      radial-gradient(420px circle at 12% 15%, var(--blob-a), transparent 65%),
+      radial-gradient(360px circle at 90% 5%, var(--blob-b), transparent 60%),
+      radial-gradient(460px circle at 65% 95%, var(--blob-c), transparent 65%);
+  }
+  .hero-inner{max-width:1180px;margin:0 auto;position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px;}
+  .hero-text{max-width:680px;}
+  .hero-text .eyebrow{justify-content:center;}
+  .hero-cta{display:flex;flex-direction:column;align-items:center;}
+  .eyebrow{
+    font-family:var(--font-mono);font-size:12px;letter-spacing:2px;color:var(--accent);
+    text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:8px;
+  }
+  .eyebrow::before{content:'';width:20px;height:1px;background:var(--accent);}
+  .hero h1{
+    font-family:var(--font-display);font-size:clamp(32px,5vw,54px);font-weight:700;margin:0 0 10px;line-height:1.05;
+    background:linear-gradient(90deg, var(--text) 25%, var(--blue) 70%, var(--purple) 100%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .hero .role{font-size:16px;color:var(--subtext);margin-bottom:6px;}
+  .hero .tagline{font-size:18px;color:var(--text);margin-top:18px;font-weight:500;}
+  .hero .tagline span{color:var(--accent);}
+  .hero-cta{margin-top:26px;}
+  .hero-cta p{color:var(--subtext);font-size:14px;margin:0 0 14px;}
+  .explore-btn{
+    font-family:var(--font-mono);font-size:13px;font-weight:600;letter-spacing:1px;
+    color:var(--bg);background:var(--accent);border:none;border-radius:10px;
+    padding:12px 22px;display:inline-flex;align-items:center;gap:8px;transition:all .2s ease;
+  }
+  .explore-btn:hover{transform:translateY(-2px);box-shadow:var(--shadow);}
+
+  .net-canvas-wrap{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;margin-top:20px;}
+  .net-canvas{position:relative;width:100%;aspect-ratio:1/1;max-width:820px;min-width:460px;margin:0 auto;}
+  .net-canvas svg{width:100%;height:100%;}
+  .net-node-label{font-family:var(--font-mono);font-size:10px;font-weight:700;fill:var(--text);letter-spacing:0.3px;}
+  .net-core-label{font-family:var(--font-display);font-size:12px;fill:var(--text);font-weight:700;}
+
+  .hero-bg-lines{position:absolute;inset:0;z-index:1;opacity:.5;pointer-events:none;}
+
+  /* ---------- SECTION HEADERS ---------- */
+  .section-title{font-family:var(--font-display);font-weight:700;font-size:28px;margin:0 0 8px;}
+  .section-sub{
+    font-size:15px;margin:0 0 32px;max-width:680px;font-weight:600;
+    background:linear-gradient(90deg, var(--blue), var(--accent) 55%, var(--purple));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .back-home{
+    display:inline-flex;align-items:center;gap:8px;color:var(--text);font-size:14px;font-weight:700;font-family:var(--font-mono);
+    margin-bottom:22px;padding:9px 16px;border-radius:20px;border:1.5px solid var(--card-border);
+    background:var(--card);transition:all .2s ease;
+  }
+  .back-home:hover{color:var(--accent);border-color:var(--accent);transform:translateX(-3px);}
+
+  .group-heading{
+    font-family:var(--font-mono);font-size:12.5px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
+    color:var(--accent-color,var(--accent));margin:34px 0 14px;padding-bottom:8px;border-bottom:2px solid color-mix(in srgb, var(--accent-color,var(--accent)) 35%, var(--card-border));
+  }
+  .group-heading:first-of-type{margin-top:0;}
+
+  /* ---------- CARDS ---------- */
+  .card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;align-items:start;}
+  .concept-card{
+    background:linear-gradient(165deg, color-mix(in srgb, var(--accent-color) 8%, var(--card)), var(--card) 72%);
+    border:1.5px solid color-mix(in srgb, var(--accent-color) 45%, var(--card-border));
+    border-radius:var(--radius);
+    padding:16px 18px;transition:all .25s ease;box-shadow:none;cursor:pointer;
+  }
+  .concept-card:hover{border-color:var(--accent-color,var(--accent));transform:translateY(-2px);box-shadow:var(--shadow);}
+  .concept-card.open{border-color:var(--accent-color,var(--accent));}
+  .concept-card-head{display:flex;align-items:center;justify-content:space-between;}
+  .concept-name{font-family:var(--font-mono);font-weight:700;font-size:14.5px;letter-spacing:.2px;display:flex;align-items:center;gap:8px;}
+  .concept-name::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--accent-color,var(--accent));flex-shrink:0;}
+  .concept-chevron{color:var(--accent-color,var(--subtext));font-size:13px;transition:transform .25s ease;}
+  .concept-card.open .concept-chevron{transform:rotate(180deg);color:var(--accent-color,var(--accent));}
+  .concept-body{max-height:0;overflow:hidden;transition:max-height .3s ease, opacity .25s ease, margin-top .3s ease;opacity:0;}
+  .concept-card.open .concept-body{max-height:220px;opacity:1;margin-top:10px;}
+  .concept-full{font-size:11.5px;font-family:var(--font-mono);color:var(--accent);margin-bottom:6px;display:block;}
+  .concept-desc{font-size:13.5px;line-height:1.55;color:var(--subtext);margin:0;}
+
+  /* ---------- HOME CATEGORY GRID ---------- */
+  .cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px;margin-top:26px;}
+  .cat-card{
+    background:linear-gradient(165deg, color-mix(in srgb, var(--accent-color) 9%, var(--card)), var(--card) 65%);
+    border:1px solid var(--card-border);border-radius:var(--radius);
+    padding:22px;position:relative;overflow:hidden;transition:all .25s ease;
+  }
+  .cat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--accent-color,var(--accent));}
+  .cat-card:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:var(--accent-color,var(--accent));}
+  .cat-index{
+    font-family:var(--font-mono);font-size:11px;font-weight:600;
+    color:var(--accent-color,var(--accent));background:color-mix(in srgb, var(--accent-color) 16%, transparent);
+    display:inline-block;padding:3px 8px;border-radius:20px;
+  }
+  .cat-title{font-family:var(--font-display);font-size:17px;font-weight:600;margin:10px 0 6px;}
+  .cat-desc{font-size:13px;color:var(--subtext);line-height:1.5;margin:0;}
+  .cat-count{margin-top:14px;font-family:var(--font-mono);font-size:11px;color:var(--accent-color,var(--accent));}
+
+  .intro-block{max-width:720px;color:var(--subtext);font-size:15px;line-height:1.7;margin-top:6px;}
+
+  /* ---------- VENDOR PAGE DIAGRAM ---------- */
+  .vendor-block{margin-bottom:56px;}
+  .vendor-name{font-family:var(--font-display);font-weight:700;font-size:20px;margin-bottom:18px;display:flex;align-items:center;gap:10px;}
+  .vendor-name .tag{font-family:var(--font-mono);font-size:11px;color:var(--accent);border:1px solid var(--card-border);padding:2px 8px;border-radius:20px;}
+  .tree{display:flex;flex-direction:column;align-items:center;gap:0;}
+  .tree-node{
+    background:linear-gradient(165deg, color-mix(in srgb, var(--accent-color, var(--accent)) 8%, var(--card)), var(--card) 72%);
+    border:1.5px solid color-mix(in srgb, var(--accent-color, var(--accent)) 45%, var(--card-border));
+    border-radius:12px;
+    padding:14px 20px;text-align:center;min-width:170px;cursor:pointer;transition:all .2s ease;
+  }
+  .tree-node:hover{border-color:var(--accent-color,var(--accent));transform:translateY(-2px);box-shadow:var(--shadow);}
+  .tree-node .n-title{font-family:var(--font-mono);font-weight:700;font-size:13.5px;}
+  .tree-node .n-sub{font-size:11px;color:var(--subtext);margin-top:2px;}
+  .tree-connector{width:1px;height:26px;background:var(--card-border);}
+  .tree-row{display:flex;flex-wrap:wrap;gap:20px 36px;justify-content:center;}
+  .tree-branch{display:flex;flex-direction:column;align-items:center;}
+  .tree-hline{height:1px;background:var(--card-border);}
+  .vendor-detail{max-width:420px;margin:14px auto 0;background:var(--bg-2);border:1.5px solid var(--accent);border-radius:10px;padding:14px 16px;font-size:13.5px;color:var(--subtext);line-height:1.5;text-align:left;display:none;}
+  .vendor-detail.show{display:block;}
+  .vendor-detail b{color:var(--text);font-family:var(--font-mono);font-weight:700;}
+
+  /* ---------- NEXT GEN PON TIMELINE ---------- */
+  .evo-line{display:flex;align-items:center;justify-content:center;gap:0;margin:36px 0 44px;flex-wrap:wrap;}
+  .evo-step{
+    background:linear-gradient(165deg, color-mix(in srgb, var(--accent-color, var(--accent)) 9%, var(--card)), var(--card) 72%);
+    border:1.5px solid color-mix(in srgb, var(--accent-color, var(--accent)) 45%, var(--card-border));
+    border-radius:12px;
+    padding:16px 20px;text-align:center;min-width:140px;transition:all .2s ease;
+  }
+  .evo-step:hover{border-color:var(--accent-color,var(--accent));transform:translateY(-2px);box-shadow:var(--shadow);}
+  .evo-step .name{font-family:var(--font-mono);font-weight:700;font-size:14px;}
+  .evo-arrow{color:var(--accent);font-size:22px;margin:0 14px;font-weight:700;}
+
+  footer{
+    position:relative;text-align:center;padding:44px 20px 36px;color:var(--subtext);font-size:12.5px;
+    border-top:1px solid var(--card-border);font-family:var(--font-mono);
+    background:linear-gradient(180deg, transparent, color-mix(in srgb, var(--purple) 5%, transparent) 40%, color-mix(in srgb, var(--accent) 6%, transparent));
+  }
+  footer::before{
+    content:'';position:absolute;top:0;left:0;right:0;height:3px;
+    background:linear-gradient(90deg, var(--blue), var(--accent), var(--purple), var(--teal), var(--blue));
+    background-size:200% 100%;animation:footerShift 6s linear infinite;
+  }
+  @keyframes footerShift{from{background-position:0% 0;}to{background-position:200% 0;}}
+  .footer-credit{color:var(--subtext);font-weight:700;transition:color .2s ease;}
+  .footer-credit:hover{color:var(--accent);}
+  .footer-contact{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-bottom:20px;}
+  .footer-contact-link{
+    font-family:var(--font-mono);font-size:12.5px;font-weight:700;color:var(--text);
+    padding:8px 14px;border-radius:20px;display:inline-flex;align-items:center;gap:6px;
+    border:1.5px solid color-mix(in srgb, var(--accent-color) 45%, var(--card-border));
+    background:linear-gradient(165deg, color-mix(in srgb, var(--accent-color) 10%, var(--card)), var(--card) 70%);
+    transition:all .2s ease;
+  }
+  .footer-contact-link:hover{border-color:var(--accent-color);color:var(--accent-color);transform:translateY(-2px);box-shadow:var(--shadow);}
+
+  /* ---------- RESPONSIVE ---------- */
+  html,body{overflow-x:hidden;max-width:100%;}
+  img,svg{max-width:100%;}
+
+  @media (max-width:900px){
+    main{padding:0 18px 80px;}
+    .hero{padding:56px 18px 32px;}
+    .cat-grid, .card-grid{gap:12px;}
+  }
+
+  @media (max-width:600px){
+    .hero h1{font-size:34px;}
+    .hero .tagline{font-size:16px;}
+    .section-title{font-size:23px;}
+    .explore-btn{font-size:12px;padding:11px 18px;letter-spacing:.5px;text-align:center;}
+    .vendor-name{font-size:17px;}
+    .footer-contact-link{font-size:11px;padding:6px 11px;}
+  }
+
+  @media (max-width:480px){
+    .navbar-top{padding:12px 16px;gap:10px;}
+    .brand{font-size:15px;gap:7px;}
+    .brand-dot{width:7px;height:7px;}
+    .tt-label, .hb-label{display:none;}
+    .theme-toggle{padding:4px;gap:2px;margin-left:6px;}
+    .theme-toggle button{padding:7px 10px;font-size:14px;}
+    .hamburger{padding:9px 11px;margin-left:6px;font-size:15px;}
+    .back-home{font-size:12.5px;padding:8px 13px;}
+    .eyebrow{font-size:11px;letter-spacing:1.5px;}
+    .cat-grid, .card-grid{grid-template-columns:1fr;}
+    .concept-name{font-size:13.5px;}
+  }
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="navbar-top">
+    <div class="brand"><span class="brand-dot"></span>ANANYA A R</div>
+    <div class="navbar-controls">
+      <div class="theme-toggle">
+        <button id="btnLight" onclick="setTheme('light')">☀<span class="tt-label"> Light</span></button>
+        <button id="btnDark" onclick="setTheme('dark')">🌙<span class="tt-label"> Dark</span></button>
+      </div>
+      <button class="hamburger" onclick="toggleMobile()" aria-label="Explore">☰<span class="hb-label"> Explore</span></button>
+    </div>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu"></div>
+
+<main id="app"></main>
+
+<footer>
+  <div class="footer-contact">
+    <a href="mailto:ananyaramegowda.1976@gmail.com" class="footer-contact-link" style="--accent-color:var(--blue)">✉ ananyaramegowda.1976@gmail.com</a>
+    <a href="https://www.linkedin.com/in/ananya-a-r-2376a1304" target="_blank" rel="noopener noreferrer" class="footer-contact-link" style="--accent-color:var(--accent)">🔗 LinkedIn</a>
+    <a href="https://github.com/AnanyaRamegowda" target="_blank" rel="noopener noreferrer" class="footer-contact-link" style="--accent-color:var(--purple)">💻 GitHub</a>
+  </div>
+  <div class="footer-credit">ANANYA A R · B.Tech, Electronics &amp; Communication Engineering · NETWORK LEARNING PORTFOLIO</div>
+</footer>
+
+<script>
+/* =========================================================
+   DATA
+   ========================================================= */
+const ROUTES = [
+  {id:'home', label:'Home'},
+  {id:'networking-fundamentals', label:'Networking Fundamentals'},
+  {id:'switching-vlan', label:'Switching & VLAN'},
+  {id:'ip-services', label:'IP Services'},
+  {id:'network-protocols', label:'Network Protocols'},
+  {id:'routing', label:'Routing'},
+  {id:'service-provider', label:'Service Provider Networking'},
+  {id:'gpon', label:'GPON Technology'},
+  {id:'vendor-technologies', label:'Vendor Technologies & Platforms'},
+  {id:'next-generation-pon', label:'Next-Generation PON'},
+];
+
+const ACCENTS = ['var(--blue)','var(--accent)','var(--purple)','var(--teal)','var(--blue)','var(--purple)','var(--accent)','var(--teal)','var(--blue)'];
+
+const CATEGORY_META = {
+  'networking-fundamentals': {desc:'Core concepts that form the foundation of computer networking.', count:11},
+  'switching-vlan': {desc:'Layer 2 switching concepts and VLAN segmentation.', count:14},
+  'ip-services': {desc:'DHCP, NAT, DNS and AAA — the services that keep IP networks running.', count:23},
+  'network-protocols': {desc:'Transport-layer and link-layer protocols used across networks.', count:6},
+  'routing': {desc:'How routers learn, classify and select paths across a network.', count:13},
+  'service-provider': {desc:'Metro, aggregation and MPLS technologies used in carrier networks.', count:10},
+  'gpon': {desc:'Fiber access architecture, components, transmission and bandwidth control.', count:40},
+  'vendor-technologies': {desc:'OLT platforms and management systems from Tejas and Nokia.', count:11},
+  'next-generation-pon': {desc:'The evolution of PON standards beyond GPON.', count:5},
+};
+
+// [name, short description]
+const DATA = {
+'networking-fundamentals': {
+  title:'NETWORKING FUNDAMENTALS',
+  sub:'Core concepts that form the foundation of computer networking.',
+  groups:[{h:null, items:[
+    ['IP Address','A unique numerical identifier assigned to each device on a network, used to locate and communicate with it.'],
+    ['IPv4','A 32-bit addressing scheme written in dotted-decimal notation, providing about 4.3 billion unique addresses.'],
+    ['IPv6','A 128-bit addressing scheme designed to replace IPv4, offering a vastly larger address space and simplified headers.'],
+    ['Public IP','An address that is globally unique and routable on the internet.'],
+    ['Private IP','An address reserved for internal networks and not routable on the public internet.'],
+    ['Static IP','An address manually configured on a device that remains fixed until changed.'],
+    ['Dynamic IP','An address automatically assigned to a device, typically by a DHCP server, and may change over time.'],
+    ['MAC Address','A unique 48-bit hardware identifier burned into a network interface, used for communication within a local segment.'],
+    ['OSI Model','A 7-layer conceptual framework describing how data moves from physical transmission up to application communication.'],
+    ['TCP/IP Model','A practical 4-layer model (Link, Internet, Transport, Application) underlying real-world internet communication.'],
+    ['Ethernet','A widely used LAN technology defining how devices format and transmit data over wired connections.'],
+  ]}]
+},
+'switching-vlan': {
+  title:'SWITCHING & VLAN',
+  sub:'Layer 2 switching concepts and VLAN segmentation.',
+  groups:[{h:null, items:[
+    ['Ethernet','A widely used LAN technology defining how devices format and transmit data over wired connections.'],
+    ['VLAN','A logical grouping of devices on a switch that separates broadcast domains regardless of physical location.'],
+    ['VLAN ID','A numeric identifier, from 1 to 4094, that distinguishes one VLAN from another.'],
+    ['VLAN Tagging','Inserting a VLAN identifier into an Ethernet frame so switches know which VLAN it belongs to.'],
+    ['802.1Q / Dot1Q','The IEEE standard defining how VLAN tags are inserted into Ethernet frames.'],
+    ['Native VLAN','The VLAN on a trunk port whose frames are sent untagged.'],
+    ['Access Mode','A switch port mode that carries traffic for a single VLAN only.'],
+    ['Trunk Mode','A switch port mode that carries tagged traffic for multiple VLANs simultaneously.'],
+    ['QinQ','Tags frames with two VLAN headers, letting service providers carry customer VLANs across their own VLAN.'],
+    ['EtherChannel',"Cisco's technology for bundling multiple physical links into one logical link for redundancy and bandwidth."],
+    ['ETH-Trunk',"Huawei's equivalent link-aggregation technology, bundling multiple Ethernet links into one logical interface."],
+    ['LACP','Link Aggregation Control Protocol; dynamically negotiates and manages bundled links between two switches.'],
+    ['LLDP','Link Layer Discovery Protocol; lets neighboring switches advertise their identity and capabilities.'],
+    ['STP','Spanning Tree Protocol; prevents Layer 2 loops in switched networks by blocking redundant paths.'],
+  ]}]
+},
+'ip-services': {
+  title:'IP SERVICES',
+  sub:'DHCP, NAT, DNS and AAA — the services that keep IP networks running.',
+  groups:[{h:null, items:[
+    ['DHCP','A protocol that automatically assigns IP addresses and network configuration to devices.'],
+    ['IPoE','Delivers IP connectivity directly over Ethernet without a PPP session, common in broadband access.'],
+    ['DHCP Discover','The first DHCP message, broadcast by a client to locate available DHCP servers.'],
+    ['DHCP Offer',"The server's response to a Discover, proposing an IP address and configuration to the client."],
+    ['DHCP Request',"The client's message confirming which offered address it wants to use."],
+    ['DHCP ACK',"The server's final acknowledgment, confirming the lease and completing the DHCP process."],
+    ['NAT','A technique that translates private IP addresses to public ones so internal devices can reach the internet.'],
+    ['Static NAT','A one-to-one, fixed mapping between a private and a public IP address.'],
+    ['Dynamic NAT','A mapping drawn from a pool of public IPs, assigned to private addresses as needed.'],
+    ['PAT','Port Address Translation; maps many private addresses to one public IP using distinct port numbers.'],
+    ['NAT Overload','Another name for PAT, where multiple internal hosts share one public IP via unique ports.'],
+    ['CGNAT','Carrier-Grade NAT; large-scale NAT used by ISPs to share limited public IPv4 addresses across subscribers.'],
+    ['DNS','The system that translates human-readable domain names into IP addresses.'],
+    ['DNS Resolver','The client-side component that queries DNS servers on behalf of an application to resolve a name.'],
+    ['DNS Recursor','A server that takes on the full work of resolving a query, contacting others until it finds the answer.'],
+    ['Root DNS Server','The top of the DNS hierarchy, directing queries to the appropriate top-level domain server.'],
+    ['TLD Server','A server responsible for a top-level domain, like .com or .net, pointing toward the authoritative server.'],
+    ['Authoritative DNS Server','The server that holds the actual DNS records for a domain and provides the definitive answer.'],
+    ['AAA','A framework covering Authentication, Authorization, and Accounting for controlling network access.'],
+    ['Authentication','Verifying the identity of a user or device before granting access.'],
+    ['Authorization','Determining what an authenticated user or device is permitted to do.'],
+    ['Accounting','Tracking and logging the resources and services a user consumes during a session.'],
+    ['PPPoE','Encapsulates PPP frames inside Ethernet, commonly used to establish broadband subscriber sessions.'],
+  ]}]
+},
+'network-protocols': {
+  title:'NETWORK PROTOCOLS',
+  sub:'Transport-layer and link-layer protocols used across networks.',
+  groups:[{h:null, items:[
+    ['TCP','A connection-oriented transport protocol that guarantees reliable, ordered delivery of data.'],
+    ['UDP','A connectionless transport protocol offering fast, lightweight delivery without reliability guarantees.'],
+    ['TCP Three-Way Handshake','The SYN, SYN-ACK, ACK exchange used to establish a reliable TCP connection.'],
+    ['LACP','Link Aggregation Control Protocol; dynamically negotiates and manages bundled links between two devices.'],
+    ['LLDP','Link Layer Discovery Protocol; lets neighboring devices advertise their identity and capabilities.'],
+    ['STP','Spanning Tree Protocol; prevents Layer 2 loops in switched networks by blocking redundant paths.'],
+  ]}]
+},
+'routing': {
+  title:'ROUTING',
+  sub:'How routers learn, classify and select paths across a network.',
+  groups:[
+    {h:'Routing Types', items:[
+      ['Direct Routing','Forwarding traffic between devices on the same network segment without needing a router.'],
+      ['Static Routing','Manually configured routes that do not change unless an administrator updates them.'],
+      ['Dynamic Routing','Routes learned and updated automatically by routing protocols based on network changes.'],
+    ]},
+    {h:'Routing Protocol Classification', items:[
+      ['Distance Vector','Routers share their routing tables with neighbors, choosing paths using metrics like hop count.'],
+      ['Link State','Routers build a full map of the network topology and calculate the shortest path themselves.'],
+      ['Path Vector','Tracks the full path a route has traversed, used to detect and avoid routing loops.'],
+    ]},
+    {h:'Routing Protocols', items:[
+      ['RIP','Routing Information Protocol; a simple distance-vector protocol using hop count as its metric.'],
+      ['OSPF','Open Shortest Path First; a link-state protocol calculating the shortest path within an autonomous system.'],
+      ['IS-IS','Intermediate System to Intermediate System; a link-state protocol widely used in large service-provider networks.'],
+      ['BGP','Border Gateway Protocol; a path-vector protocol exchanging routes between autonomous systems on the internet.'],
+    ]},
+    {h:'IS-IS Concepts', items:[
+      ['IS-IS Level 1','Intra-area routing level, exchanging routing information within a single area.'],
+      ['IS-IS Level 1/2','A router acting as a boundary between areas, routing both within and between areas.'],
+      ['IS-IS Level 2','Inter-area (backbone) routing level, exchanging routing information between different areas.'],
+    ]},
+  ]
+},
+'service-provider': {
+  title:'SERVICE PROVIDER NETWORKING',
+  sub:'Metro, aggregation and MPLS technologies used in carrier networks.',
+  groups:[
+    {h:'Metro / Access', items:[
+      ['MEN','Metro Ethernet Network; an Ethernet-based network spanning a metro area to connect access sites to the core.'],
+      ['Ethernet Transport','Using Ethernet as the underlying technology to carry traffic across provider infrastructure.'],
+      ['Access Aggregation','The layer where traffic from multiple access nodes is combined before entering the core network.'],
+    ]},
+    {h:'MPLS', items:[
+      ['MPLS','Multiprotocol Label Switching; forwards traffic using short labels instead of full lookups at every hop.'],
+      ['MPLS Labels','Short, fixed-length identifiers attached to packets that determine their forwarding path.'],
+      ['Label Switched Path','The predetermined path a labeled packet follows across an MPLS network.'],
+      ['LER','Label Edge Router; sits at the edge of an MPLS network, adding or removing labels.'],
+      ['LSR','Label Switch Router; forwards labeled packets within the MPLS core based on label values.'],
+      ['LDP','Label Distribution Protocol; used by routers to exchange labels and build label-switched paths.'],
+    ]},
+    {h:'Layer 2 VPN', items:[
+      ['VPLS','Virtual Private LAN Service; emulates a Layer 2 Ethernet segment across an MPLS network between sites.'],
+    ]},
+  ]
+},
+'gpon': {
+  title:'GPON TECHNOLOGY',
+  sub:'Fiber access architecture — from optical fundamentals to bandwidth control.',
+  groups:[
+    {h:'GPON Fundamentals', items:[
+      ['GPON','Gigabit Passive Optical Network; a fiber-access technology delivering broadband over a point-to-multipoint architecture.'],
+      ['Point-to-Multipoint','A topology where a single source connects to multiple endpoints, as between an OLT and many ONTs.'],
+      ['Passive Optical Network','An optical access network using unpowered splitters instead of active electronics between OLT and ONTs.'],
+      ['Optical Fiber','A thin strand of glass or plastic that carries data as pulses of light with minimal loss.'],
+      ['Active Components','Equipment that requires power to process or regenerate signals, such as OLTs and ONTs.'],
+      ['Passive Components','Equipment such as splitters that route optical signals without requiring power.'],
+    ]},
+    {h:'GPON Components', items:[
+      ['OLT','Optical Line Terminal; the central office equipment that sends and receives signals to multiple ONTs.'],
+      ['ONT','Optical Network Terminal; the customer-premises device that terminates the fiber connection.'],
+      ['ONU','Optical Network Unit; similar to an ONT, typically serving multiple users at one termination point.'],
+      ['L1 Splitter','The first-stage passive splitter dividing the optical signal from the OLT toward the distribution network.'],
+      ['L2 Splitter','A second-stage passive splitter that further divides the signal closer to individual subscribers.'],
+    ]},
+    {h:'GPON Transmission', items:[
+      ['WDM','Wavelength Division Multiplexing; carries multiple signals on the same fiber using different light wavelengths.'],
+      ['Downstream','Data traveling from the OLT to the ONT/ONU.'],
+      ['Upstream','Data traveling from the ONT/ONU back to the OLT.'],
+      ['1490 nm','The wavelength typically used for downstream data transmission in GPON.'],
+      ['1310 nm','The wavelength typically used for upstream data transmission in GPON.'],
+      ['TDMA','Time Division Multiple Access; lets multiple ONTs share the upstream fiber using assigned time slots.'],
+      ['2.5 Gbps Downstream','The standard downstream bandwidth defined for GPON.'],
+      ['1.25 Gbps Upstream','The standard upstream bandwidth defined for GPON.'],
+    ]},
+    {h:'GPON Bandwidth Management', items:[
+      ['T-CONT','Transmission Container; a logical bandwidth allocation unit used to manage upstream traffic from an ONT.'],
+      ['T-CONT Type 1 – Fixed','Guarantees a fixed, dedicated bandwidth regardless of network load.'],
+      ['T-CONT Type 2 – Assured','Guarantees a minimum bandwidth that is always available.'],
+      ['T-CONT Type 3 – Non-Assured','Provides a guaranteed minimum plus extra bandwidth when available, but not assured.'],
+      ['T-CONT Type 4 – Best Effort','Uses only leftover bandwidth with no guarantees.'],
+      ['T-CONT Type 5 – Combined','Combines characteristics of multiple T-CONT types for flexible allocation.'],
+      ['Alloc-ID','An identifier assigned to a T-CONT, used by the OLT to schedule upstream bandwidth.'],
+      ['DBA','Dynamic Bandwidth Allocation; adjusts upstream bandwidth assignments in real time based on demand.'],
+      ['SR-DBA','Status-Reporting DBA; ONTs report their buffer status so the OLT can allocate bandwidth precisely.'],
+      ['NSR-DBA','Non-Status-Reporting DBA; the OLT estimates bandwidth needs without explicit reports from the ONT.'],
+      ['Fixed Bandwidth','A guaranteed, unchanging bandwidth allocation.'],
+      ['Assured Bandwidth','A guaranteed minimum bandwidth that is always reserved.'],
+      ['Non-Assured Bandwidth','Extra bandwidth granted when available but not guaranteed.'],
+      ['Best Effort Bandwidth','Bandwidth used only from whatever capacity remains, with no guarantee.'],
+    ]},
+    {h:'GPON Management & Control', items:[
+      ['OMCI','ONT Management and Control Interface; used by the OLT to configure and manage ONTs remotely.'],
+      ['PLOAM','Physical Layer OAM; a GPON control channel for ONT activation, ranging, and security key exchange.'],
+    ]},
+    {h:'OLT / ONT Architecture', items:[
+      ['OLT Functional Blocks','The internal modules of an OLT, including uplink, switching, PON interface, and control functions.'],
+      ['ONT / ONU Functional Blocks','The internal modules of an ONT/ONU, including optical interface, processing unit, and user ports.'],
+    ]},
+    {h:'ONT Modes', items:[
+      ['Bridge Mode ONT','Passes traffic transparently to a separate router without performing routing itself.'],
+      ['Router Mode ONT','Performs routing, NAT, and DHCP itself, acting as both fiber terminal and home gateway.'],
+      ['Layer 2 Forwarding','Forwarding traffic based on MAC addresses without altering IP-layer information.'],
+      ['NAT','A technique that translates private IP addresses to public ones so internal devices can reach the internet.'],
+      ['DHCP','A protocol that automatically assigns IP addresses and network configuration to devices.'],
+      ['Wi-Fi','Wireless connectivity provided by many router-mode ONTs to serve local devices without cables.'],
+    ]},
+  ]
+},
+'next-generation-pon': {
+  title:'NEXT-GENERATION PON',
+  sub:'The evolution of PON standards beyond GPON.',
+  groups:[{h:null, items:[
+    ['XG-PON','10-Gigabit-capable PON offering 10 Gbps downstream and 2.5 Gbps upstream, an evolution of GPON.'],
+    ['XGS-PON','A symmetric evolution of XG-PON offering 10 Gbps in both downstream and upstream directions.'],
+    ['Combo PON','A PON platform capable of supporting GPON, XG-PON, and XGS-PON simultaneously on shared infrastructure.'],
+    ['PON Evolution','The progression of PON standards from GPON toward higher-speed XG-PON, XGS-PON, and beyond.'],
+    ['GPON + Next-Generation PON Coexistence','Running legacy GPON and newer PON standards on the same fiber using different wavelengths.'],
+  ]}]
+},
+};
+
+const VENDOR_DETAILS = {
+  'Tejas OLT':"An optical line terminal platform from Tejas Networks used to provide GPON access.",
+  'Tejas 4-Port OLT':"A Tejas OLT variant offering 4 PON ports for smaller-scale deployments.",
+  'Tejas 8-Port OLT':"A Tejas OLT variant offering 8 PON ports for medium-scale deployments.",
+  'Tejas 16-Port OLT':"A Tejas OLT variant offering 16 PON ports for larger-scale deployments.",
+  'Tejas NMS':"The network management and controller platform associated with the Tejas OLT environment.",
+  'Nokia Lightspan':"Nokia's optical access platform used to deliver GPON and next-generation PON services.",
+  'Nokia Altiplano / Nokia ACS':"Nokia's management and control platform associated with the Lightspan access nodes.",
+  'Nokia ISAM':"Nokia's broadband access platform family for delivering fiber and copper-based services.",
+  'Nokia Pizza Box':"A compact, fixed-configuration hardware form factor of the Nokia ISAM platform.",
+  'Nokia Chassis':"A modular, slot-based hardware form factor of the Nokia ISAM platform for larger deployments.",
+  'Nokia AMS':"The management system used to monitor and control Nokia ISAM deployments, across both form factors.",
+};
+
+/* =========================================================
+   STATE
+   ========================================================= */
+let theme = 'dark';
+let mobileOpen = false;
+let previousRoute = null; // tracks the last route, so "Home" from inside a
+                           // category returns to the category grid, not the
+                           // very top of the hero.
+
+function setTheme(t){
+  theme = t;
+  document.documentElement.setAttribute('data-theme', t);
+  document.getElementById('btnLight').classList.toggle('active', t==='light');
+  document.getElementById('btnDark').classList.toggle('active', t==='dark');
+}
+
+function toggleMobile(){
+  mobileOpen = !mobileOpen;
+  document.getElementById('mobileMenu').classList.toggle('open', mobileOpen);
+}
+
+function currentRoute(){
+  const h = window.location.hash.replace('#/','').replace('#','');
+  return h || 'home';
+}
+
+function navigate(id){
+  window.location.hash = '/' + (id==='home' ? '' : id);
+  mobileOpen = false;
+  document.getElementById('mobileMenu').classList.remove('open');
+}
+
+/* =========================================================
+   NAV RENDER
+   ========================================================= */
+function renderNav(){
+  const route = currentRoute();
+  const accentFor = (i) => i===0 ? 'var(--accent)' : ACCENTS[(i-1) % ACCENTS.length];
+  const linkHtml = (r,i) => `<a href="javascript:void(0)" class="nav-link ${route===r.id?'active':''}" style="--accent-color:${accentFor(i)}" onclick="navigate('${r.id}')"><span class="nav-dot"></span>${r.label}</a>`;
+  document.getElementById('mobileMenu').innerHTML = ROUTES.map(linkHtml).join('');
+}
+
+/* =========================================================
+   CONCEPT CARD + GRID
+   ========================================================= */
+function esc(s){
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// Every card carries its explanation directly as a data-attribute. The toggle
+// handler lives on the OUTER card (not just the header row), so clicking
+// anywhere in the box — padding, edges, center, or the arrow — opens it,
+// not just a precise hit on the title/chevron.
+function conceptCard(name, desc, accentColor){
+  if(!desc){ console.warn('Missing description for concept:', name); }
+  return `
+  <div class="concept-card" style="--accent-color:${accentColor}" onclick="this.classList.toggle('open')">
+    <div class="concept-card-head">
+      <span class="concept-name">${esc(name)}</span>
+      <span class="concept-chevron">▾</span>
+    </div>
+    <div class="concept-body">
+      <p class="concept-desc">${esc(desc)}</p>
+    </div>
+  </div>`;
+}
+
+function renderGroups(groups){
+  let gi = 0;
+  return groups.map(g => {
+    const groupColor = ACCENTS[gi % ACCENTS.length];
+    let ci = gi;
+    const cards = g.items.map(it => {
+      const color = ACCENTS[ci % ACCENTS.length];
+      ci++;
+      return conceptCard(it[0], it[1], color);
+    }).join('');
+    gi++;
+    return (g.h ? `<div class="group-heading" style="--accent-color:${groupColor}">${g.h}</div>` : '') + `<div class="card-grid">${cards}</div>`;
+  }).join('');
+}
+
+function renderCategoryPage(routeId){
+  const d = DATA[routeId];
+  return `
+    <a href="javascript:void(0)" class="back-home" onclick="navigate('home')">← Home</a>
+    <h1 class="section-title">${d.title}</h1>
+    <p class="section-sub">${d.sub}</p>
+    ${renderGroups(d.groups)}
+  `;
+}
+
+/* =========================================================
+   HOME PAGE
+   ========================================================= */
+// Splits a category label into at most 2 lines, breaking near the middle
+// so labels stay compact around the diagram.
+function wrapLabel(s){
+  if(s.length <= 13) return [s];
+  let bestIdx = -1, bestDist = Infinity;
+  const mid = s.length/2;
+  for(let idx=0; idx<s.length; idx++){
+    if(s[idx]===' '){
+      const d = Math.abs(idx-mid);
+      if(d < bestDist){ bestDist = d; bestIdx = idx; }
+    }
+  }
+  if(bestIdx===-1) return [s];
+  return [s.slice(0,bestIdx), s.slice(bestIdx+1)];
+}
+
+function heroNetworkSVG(){
+  const outer = ROUTES.slice(1); // 9 categories
+  const cx=350, cy=350, r=150;
+  let lines='', nodes='', pulses='';
+  outer.forEach((cat, i)=>{
+    const angle = (Math.PI*2*i/outer.length) - Math.PI/2;
+    const x = cx + r*Math.cos(angle);
+    const y = cy + r*Math.sin(angle);
+    const color = ACCENTS[i % ACCENTS.length];
+    const labelR = r + 44;
+    const lx = cx + labelR*Math.cos(angle);
+    const ly = cy + labelR*Math.sin(angle);
+    const cosA = Math.cos(angle);
+    const anchor = cosA > 0.2 ? 'start' : (cosA < -0.2 ? 'end' : 'middle');
+    const linesOfLabel = wrapLabel(cat.label.toUpperCase());
+    const tspans = linesOfLabel.map((ln,li)=>`<tspan x="${lx.toFixed(1)}" dy="${li===0?0:11}">${ln}</tspan>`).join('');
+
+    lines += `<line x1="${cx}" y1="${cy}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" stroke="${color}" stroke-opacity="0.35" stroke-width="1.2"/>`;
+    nodes += `<g style="cursor:pointer" onclick="navigate('${cat.id}')">
+        <circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="7" fill="${color}" fill-opacity="0.18" stroke="${color}" stroke-width="1.4"/>
+        <circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="2.6" fill="${color}"/>
+        <text y="${ly.toFixed(1)}" text-anchor="${anchor}" class="net-node-label" font-weight="600">${tspans}</text>
+      </g>`;
+    pulses += `<circle r="3" fill="${color}">
+        <animateMotion dur="${3+ (i%4)*0.6}s" repeatCount="indefinite" path="M${cx},${cy} L${x.toFixed(1)},${y.toFixed(1)}"/>
+        <animate attributeName="opacity" values="0;1;1;0" dur="${3+ (i%4)*0.6}s" repeatCount="indefinite"/>
+      </circle>`;
+  });
+  return `
+  <svg viewBox="0 0 700 700" style="overflow:visible">
+    <circle cx="${cx}" cy="${cy}" r="${r+20}" fill="none" stroke="var(--card-border)" stroke-dasharray="2 6"/>
+    ${lines}
+    ${pulses}
+    <circle cx="${cx}" cy="${cy}" r="42" fill="var(--card)" stroke="var(--accent)" stroke-width="1.6"/>
+    <text x="${cx}" y="${cy-3}" text-anchor="middle" class="net-core-label"><tspan x="${cx}">NETWORK</tspan><tspan x="${cx}" dy="13">LEARNING</tspan></text>
+    ${nodes}
+  </svg>`;
+}
+
+function renderHome(){
+  const cats = ROUTES.slice(1);
+  return `
+  <div class="hero">
+    <div class="hero-inner">
+      <div class="hero-text">
+        <div class="eyebrow">Network Learning Portfolio</div>
+        <h1>ANANYA A R</h1>
+        <div class="role">B.Tech – Electronics and Communication Engineering<br/>2026 Graduate</div>
+        <div class="tagline">Exploring <span>Networking Concepts and Technologies</span></div>
+        <div class="hero-cta">
+          <p>Explore the concepts and technologies I have studied and understood.</p>
+          <button class="explore-btn" onclick="document.getElementById('tech-knowledge').scrollIntoView({behavior:'smooth'})">EXPLORE TECHNICAL KNOWLEDGE →</button>
+        </div>
+      </div>
+      <div class="net-canvas-wrap"><div class="net-canvas">${heroNetworkSVG()}</div></div>
+    </div>
+  </div>
+  <div id="tech-knowledge">
+    <h2 class="section-title">TECHNICAL KNOWLEDGE</h2>
+    <p class="intro-block">A structured record of the networking and telecom concepts, protocols, and platforms I have studied and understood — organized by topic, from core networking fundamentals to fiber-access technologies. Select a category to explore its concepts.</p>
+    <div class="cat-grid">
+      ${cats.map((c,i)=>{
+        const meta = CATEGORY_META[c.id];
+        return `
+        <div class="cat-card" style="--accent-color:${ACCENTS[i % ACCENTS.length]}" onclick="navigate('${c.id}')">
+          <div class="cat-index">0${i+1}</div>
+          <div class="cat-title">${c.label}</div>
+          <p class="cat-desc">${meta.desc}</p>
+          <div class="cat-count">${meta.count} concepts →</div>
+        </div>`;
+      }).join('')}
+    </div>
+  </div>
+  `;
+}
+
+/* =========================================================
+   VENDOR PAGE (custom architecture diagrams)
+   ========================================================= */
+function vNode(name, sub, accentColor){
+  const color = accentColor || 'var(--blue)';
+  return `<div class="tree-node" style="--accent-color:${color}" onclick="showVendorDetail('${name.replace(/'/g,"\\'")}')">
+      <div class="n-title">${name}</div>
+      ${sub ? `<div class="n-sub">${sub}</div>` : ''}
+    </div>`;
+}
+
+function renderVendorPage(){
+  return `
+    <a href="javascript:void(0)" class="back-home" onclick="navigate('home')">← Home</a>
+    <h1 class="section-title">VENDOR TECHNOLOGIES & PLATFORMS</h1>
+    <p class="section-sub">OLT platforms and their associated management systems, organized by vendor.</p>
+
+    <div class="vendor-block">
+      <div class="vendor-name">TEJAS <span class="tag">access platform</span></div>
+      <div class="tree">
+        ${vNode('Tejas OLT','optical line terminal','var(--blue)')}
+        <div class="tree-connector"></div>
+        <div class="tree-row">
+          ${vNode('Tejas 4-Port OLT',null,'var(--blue)')}
+          ${vNode('Tejas 8-Port OLT',null,'var(--blue)')}
+          ${vNode('Tejas 16-Port OLT',null,'var(--blue)')}
+        </div>
+        <div class="tree-connector"></div>
+        ${vNode('Tejas NMS','management & controller','var(--accent)')}
+      </div>
+    </div>
+
+    <div class="vendor-block">
+      <div class="vendor-name">NOKIA <span class="tag">access platform</span></div>
+
+      <div class="tree" style="margin-bottom:44px;">
+        ${vNode('Nokia Lightspan','OLT / optical access','var(--purple)')}
+        <div class="tree-connector"></div>
+        ${vNode('Nokia Altiplano / Nokia ACS','management & control','var(--accent)')}
+      </div>
+
+      <div class="tree">
+        ${vNode('Nokia ISAM','broadband access platform','var(--teal)')}
+        <div class="tree-connector"></div>
+        <div class="tree-row">
+          ${vNode('Nokia Pizza Box','form factor','var(--teal)')}
+          ${vNode('Nokia Chassis','form factor','var(--teal)')}
+          ${vNode('Nokia AMS','management & controller','var(--accent)')}
+        </div>
+      </div>
+    </div>
+
+    <div class="vendor-detail" id="vendor-detail-box"></div>
+  `;
+}
+
+function showVendorDetail(name){
+  const box = document.getElementById('vendor-detail-box');
+  if(!box) return;
+  box.innerHTML = `<b>${esc(name)}</b><br/>${esc(VENDOR_DETAILS[name] || '')}`;
+  box.classList.add('show');
+  box.scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+
+/* =========================================================
+   NEXT-GEN PON PAGE
+   ========================================================= */
+function renderNextGenPage(){
+  const d = DATA['next-generation-pon'];
+  const evo = ['GPON','XG-PON','XGS-PON','Combo PON'];
+  return `
+    <a href="javascript:void(0)" class="back-home" onclick="navigate('home')">← Home</a>
+    <h1 class="section-title">${d.title}</h1>
+    <p class="section-sub">${d.sub}</p>
+    <div class="evo-line">
+      ${evo.map((e,i)=>`${i>0?'<span class="evo-arrow">→</span>':''}<div class="evo-step" style="--accent-color:${ACCENTS[i % ACCENTS.length]}"><div class="name">${e}</div></div>`).join('')}
+    </div>
+    ${renderGroups(d.groups)}
+  `;
+}
+
+/* =========================================================
+   ROUTER
+   ========================================================= */
+function render(){
+  const route = currentRoute();
+  renderNav();
+  const app = document.getElementById('app');
+  let html = '';
+  if(route === 'home'){
+    html = renderHome();
+  } else if(route === 'vendor-technologies'){
+    html = renderVendorPage();
+  } else if(route === 'next-generation-pon'){
+    html = renderNextGenPage();
+  } else if(DATA[route]){
+    html = renderCategoryPage(route);
+  } else {
+    // unknown hash -> fall back to home, never blank
+    window.location.hash = '/';
+    html = renderHome();
+  }
+  app.innerHTML = `<div class="page-enter">${html}</div>`;
+
+  // Returning to Home from any category page should land back on the
+  // "Technical Knowledge" grid (where all the categories live), not scroll
+  // all the way up past the hero every time. A true first load, or clicking
+  // Home while already on Home, still goes to the top as normal.
+  if(route === 'home' && previousRoute && previousRoute !== 'home'){
+    const target = document.getElementById('tech-knowledge');
+    if(target){ target.scrollIntoView({behavior:'smooth', block:'start'}); }
+    else { window.scrollTo({top:0, behavior:'smooth'}); }
+  } else {
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+  previousRoute = route;
+}
+
+window.addEventListener('hashchange', render);
+window.addEventListener('DOMContentLoaded', () => {
+  setTheme('dark');
+  render();
+});
+</script>
+</body>
+</html>
